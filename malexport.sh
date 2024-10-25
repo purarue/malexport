@@ -21,7 +21,7 @@ mal_list() {
 		return 1
 	fi
 	args+=("python" -m malexport parse list -s "${DIR}/${MAL_USERNAME}/${TYPE}list.json")
-	# optional line-based caching using https://github.com/seanbreckenridge/fzfcache
+	# optional line-based caching using https://github.com/purarue/fzfcache
 	if [[ -n "$LISTCACHED" ]]; then
 		args=(fzfcache "${args[@]}")
 	fi

@@ -9,7 +9,7 @@ import IPython  # type: ignore[import]
 from malexport.exporter import Account
 
 try:
-    from my.config.seanb.malexport_secret import *  # type: ignore
+    from my.config.pura.malexport_secret import *  # type: ignore
 except ImportError:
     pass
 

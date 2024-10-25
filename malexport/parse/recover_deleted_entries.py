@@ -16,7 +16,7 @@ repo_dir = Path(mal_id_cache_dir)
 
 class Approved(NamedTuple):
     """
-    Uses https://github.com/seanbreckenridge/mal-id-cache to fetch a list
+    Uses https://github.com/purarue/mal-id-cache to fetch a list
     of approved MAL IDs
     """
 
@@ -39,7 +39,7 @@ class Approved(NamedTuple):
 
         else:
             return Repo.clone_from(
-                "https://github.com/seanbreckenridge/mal-id-cache", repo_dir
+                "https://github.com/purarue/mal-id-cache", repo_dir
             )
 
     @classmethod

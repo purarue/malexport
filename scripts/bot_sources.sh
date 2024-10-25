@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # should be used in bash/zsh
-#	quite personal as it uses sources collated by my https://github.com/seanbreckenridge/mal-notify-bot
+#	quite personal as it uses sources collated by my https://github.com/purarue/mal-notify-bot
 # this should be sourced into shell environment
 #
 # this lists any items that are currently on my 'Currently Watching'
@@ -162,8 +162,8 @@ mal_sources_list() {
 # open the corresponding MAL page by extracting it from
 # the filename
 mal_mpv_open_currently_playing() {
-	# https://github.com/seanbreckenridge/seanb-utils/blob/main/shellscripts/openurl
-	# https://github.com/seanbreckenridge/mpv-sockets
+	# https://github.com/purarue/pura-utils/blob/main/shellscripts/openurl
+	# https://github.com/purarue/mpv-sockets
 	local id
 	id="$(basename "$(mpv-currently-playing)" | cut -d"_" -f1 | cut -d"." -f1)"
 	[[ -n "$id" ]] && echo "$id" | mal_anime_links | openurl

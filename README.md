@@ -29,7 +29,7 @@ pip install malexport
 
 For your MyAnimeList [API Info](https://myanimelist.net/apiconfig), you can use 'other' as the 'App Type', 'hobbyist' as 'Purpose of Use', and `http://localhost` as the redirect URI. This only requires a Client ID, not both a Client ID and a Secret
 
-Since this uses selenium, that requires a `chromedriver` binary somewhere on your system. That's typically available in package repositories, else see [here](https://gist.github.com/seanbreckenridge/709a824b8c56ea22dbf4e86a7804287d). If this isn't able to find the file, set the `MALEXPORT_CHROMEDRIVER_LOCATION` environment variable, like: `MALEXPORT_CHROMEDRIVER_LOCATION=C:\\Downloads\\chromedriver.exe malexport ...`
+Since this uses selenium, that requires a `chromedriver` binary somewhere on your system. That's typically available in package repositories, else see [here](https://gist.github.com/purarue/709a824b8c56ea22dbf4e86a7804287d). If this isn't able to find the file, set the `MALEXPORT_CHROMEDRIVER_LOCATION` environment variable, like: `MALEXPORT_CHROMEDRIVER_LOCATION=C:\\Downloads\\chromedriver.exe malexport ...`
 
 I left some shell functions I commonly use to query my data in `malexport.sh`, to use that set the `MAL_USERNAME` variable to your account name, and then `source malexport.sh` in your shell startup. Should work on both `bash`/`zsh`
 
@@ -65,7 +65,7 @@ If you use 2FA you can set the `MALEXPORT_2FA` variable, like `MALEXPORT_2FA=1 m
 
 ### parse
 
-I generally don't interface with the CLI interface here and instead use the `my.mal.export` in [HPI](https://github.com/seanbreckenridge/HPI). That handles configuring accounts/locating my data on disk
+I generally don't interface with the CLI interface here and instead use the `my.mal.export` in [HPI](https://github.com/purarue/HPI). That handles configuring accounts/locating my data on disk
 
 The `parse` subcommand includes corresponding commands which take the saved data, clean it up a bit into easier to manipulate representations. Those each have python functions which can be imported from `malexport.parse`, or called from the CLI to produce JSON.
 
@@ -205,7 +205,7 @@ This requires [`hpi`](https://pypi.org/project/HPI/) to automatically unzip file
 
 `malexport recover-deleted backup`, saves to `~/.local/share/malexport_zips` (can overwrite default location with `MALEXPORT_ZIP_BACKUPS`)
 
-To figure out which entries are deleted, this uses [mal-id-cache](https://github.com/seanbreckenridge/mal-id-cache). To update the local cache of IDs, run:
+To figure out which entries are deleted, this uses [mal-id-cache](https://github.com/purarue/mal-id-cache). To update the local cache of IDs, run:
 
 ```bash
 $ malexport recover-deleted approved-update
@@ -248,7 +248,7 @@ python3 -m malexport recover-deleted recover -F \
 
 None of those IDs exist anymore on MAL, so these backups are the only way to get metadata or my history/data for them
 
-I backup my list once every 3 days, and have a corresponding [`bleanser`](https://github.com/seanbreckenridge/bleanser/blob/master/src/bleanser_sean/modules/mal_zips.py) (backup cleanser) file to remove redundant backups (ones that don't introduce 'new deleted' entries).
+I backup my list once every 3 days, and have a corresponding [`bleanser`](https://github.com/purarue/bleanser/blob/master/src/bleanser_pura/modules/mal_zips.py) (backup cleanser) file to remove redundant backups (ones that don't introduce 'new deleted' entries).
 
 ### manual-history
 
