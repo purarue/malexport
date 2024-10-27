@@ -112,12 +112,12 @@ mal_sources_watch_next() {
 	DATA="$(mal_list | jq "select(.id == $RANDOM_NEXT_ID)")"
 	echo "$DATA" | mal_describe
 	echo "$DATA" | jq '"\(.id)"' -r | mal_anime_links
-	# https://sean.fish/d/extracturls?dark
+	# https://purarue.xyz/d/extracturls?dark
 	# local urls
 	urls="$(mal_sources_extract_id "${RANDOM_NEXT_ID}" | extracturls)"
 	while IFS= read -r url; do
-		# open the video in mpv https://sean.fish/d/mpv-corner?dark
-		# https://sean.fish/d/stream-corner-480?dark
+		# open the video in mpv https://purarue.xyz/d/mpv-corner?dark
+		# https://purarue.xyz/d/stream-corner-480?dark
 		# run behind tsp (a task spooler) so mpv waits till
 		# previous is over
 		echo "Source for ${RANDOM_NEXT_ID}: ${url}"
