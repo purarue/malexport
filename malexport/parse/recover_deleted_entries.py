@@ -38,9 +38,7 @@ class Approved(NamedTuple):
             return Repo(mal_id_cache_dir)
 
         else:
-            return Repo.clone_from(
-                "https://github.com/purarue/mal-id-cache", repo_dir
-            )
+            return Repo.clone_from("https://github.com/purarue/mal-id-cache", repo_dir)
 
     @classmethod
     def git(cls) -> Git:
