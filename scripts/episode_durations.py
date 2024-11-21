@@ -60,7 +60,7 @@ def main(
         ), f"missing apilist data for id {anime.XMLData.anime_id}, update with `malexport update api-lists -u {username}`"
         assert anime.APIList.average_episode_duration is not None
 
-        # default to 0 if theres no data
+        # default to 0 if there's no data
         # this makes sorting easier and can just remove rows later if needed
         total_duration = (anime.XMLData.episodes or 0) * (
             anime.APIList.average_episode_duration or 0
