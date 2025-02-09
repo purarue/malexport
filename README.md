@@ -254,6 +254,8 @@ I backup my list once every 3 days, and have a corresponding [`bleanser`](https:
 
 The `manual-history` command lets you locally save episode/chapter (history) data for anime or manga.
 
+https://github.com/user-attachments/assets/ad73e2d2-abbc-4b6a-8568-20e0280e2495
+
 Since its not trivial to mark a single episode as watched on MAL; you have to:
 
 - go to the anime page
