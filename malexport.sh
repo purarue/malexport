@@ -32,15 +32,20 @@ mal_list_cached() {
 	LISTCACHED=1 mal_list "${@}"
 }
 
-openentry() {
+pickentry() {
 	cmd='mal_list'
 	if command -v fzfcache >/dev/null; then
 		cmd='mal_list_cached'
 	fi
 	CHOSEN="$("$cmd" "${1}" | jq -r '"\(.id)|\(.title)"' | fzf)"
 	[ -z "${CHOSEN}" ] && return 1
-	ID="$(echo "${CHOSEN}" | cut -d'|' -f1)"
-	python3 -m webbrowser -t "https://myanimelist.net/${1}/${ID}"
+	echo "${CHOSEN}" | cut -d'|' -f1
+}
+
+openentry() {
+	id=$(pickentry "${1}")
+	[[ -z "$id" ]] && return 1
+	python3 -m webbrowser -t "https://myanimelist.net/${1}/${id}"
 }
 
 animefzf() {
