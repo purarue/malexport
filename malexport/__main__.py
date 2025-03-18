@@ -551,7 +551,7 @@ def manual_history(
     id: Optional[int],
     loop: bool,
     edit: bool,
-    number: int | None,
+    number: Optional[int],
 ) -> None:
     """
     This lets you add to your user history manually, for example if you
