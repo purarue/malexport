@@ -6,7 +6,7 @@ from typing import Callable, Optional, Any, Literal, List
 import click
 
 from .list_type import ListType
-from .paths import default_zip_base
+from .paths import LocalDir, default_zip_base
 
 
 @click.group()
@@ -506,6 +506,7 @@ def recover(data_dir: Path, filter_with_activity: bool, only: str) -> None:
 
 @main.command(short_help="add a history episode manually")
 @apply_shared(USERNAME)
+@click.option("--edit", is_flag=True, default=False, help="Edit the yaml file in your editor")
 @click.option(
     "-t",
     "--type",
@@ -538,8 +539,6 @@ def recover(data_dir: Path, filter_with_activity: bool, only: str) -> None:
 @click.option(
     "-n",
     "--number",
-    prompt=True,
-    required=True,
     type=int,
     help="Which episode/chapter to add",
 )
@@ -549,7 +548,8 @@ def manual_history(
     at: int,
     id: Optional[int],
     loop: bool,
-    number: int,
+    edit: bool,
+    number: int | None,
 ) -> None:
     """
     This lets you add to your user history manually, for example if you
@@ -558,6 +558,18 @@ def manual_history(
     """
     from datetime import datetime, timezone
     from .manual_episode import add_to_history
+
+    if edit:
+        pass
+        data_dir = LocalDir.from_username(username).data_dir
+        filename = data_dir / "manual_history.yaml"
+        return click.edit(filename=str(filename), extension=".yaml")
+    else:
+        number = click.prompt(
+            "Episode number" if type_ == "anime" else "Chapter number", type=int
+        )
+
+    assert number is not None
 
     entry_type = ListType.ANIME if type_ == "anime" else ListType.MANGA
     while True:
