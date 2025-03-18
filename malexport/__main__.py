@@ -506,7 +506,9 @@ def recover(data_dir: Path, filter_with_activity: bool, only: str) -> None:
 
 @main.command(short_help="add a history episode manually")
 @apply_shared(USERNAME)
-@click.option("--edit", is_flag=True, default=False, help="Edit the yaml file in your editor")
+@click.option(
+    "--edit", is_flag=True, default=False, help="Edit the yaml file in your editor"
+)
 @click.option(
     "-t",
     "--type",
@@ -563,7 +565,8 @@ def manual_history(
         pass
         data_dir = LocalDir.from_username(username).data_dir
         filename = data_dir / "manual_history.yaml"
-        return click.edit(filename=str(filename), extension=".yaml")
+        click.edit(filename=str(filename), extension=".yaml")
+        return
     else:
         number = click.prompt(
             "Episode number" if type_ == "anime" else "Chapter number", type=int
