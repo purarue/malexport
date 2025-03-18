@@ -568,9 +568,10 @@ def manual_history(
         click.edit(filename=str(filename), extension=".yaml")
         return
     else:
-        number = click.prompt(
-            "Episode number" if type_ == "anime" else "Chapter number", type=int
-        )
+        if number is None:
+            number = click.prompt(
+                "Episode number" if type_ == "anime" else "Chapter number", type=int
+            )
 
     assert number is not None
 
