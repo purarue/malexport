@@ -108,7 +108,12 @@ def driver_login(webdriver: Browser, localdir: LocalDir) -> None:
         )
     except TimeoutException:
         pass
-
+    opt_out = webdriver.find_elements(
+        By.CSS_SELECTOR, '#qc-cmp2-usp button[aria-label="CONFIRM"]'
+    )
+    if len(opt_out) > 0:
+        opt_out[0].click()
+        time.sleep(2)
     webdriver.find_element(By.ID, LOGIN_ID).send_keys(creds["username"])
     time.sleep(1)
     webdriver.find_element(By.ID, PASSWORD_ID).send_keys(creds["password"])
