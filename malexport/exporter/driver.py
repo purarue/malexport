@@ -13,9 +13,12 @@ from typing import Optional, Dict, Any, Union
 
 import click
 from selenium import webdriver as sel
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.webdriver import WebDriver as Firefox  # type: ignore[import]
+from selenium.webdriver.firefox.webdriver import WebDriver as Firefox
+from selenium.webdriver.support.ui import WebDriverWait  # type: ignore[import]
+from selenium.webdriver.support import expected_conditions as EC  # type: ignore[import]
 
 from ..paths import LocalDir, _expand_path
 from ..log import logger
@@ -97,6 +100,15 @@ def driver_login(webdriver: Browser, localdir: LocalDir) -> None:
     time.sleep(1)
     webdriver.get(LOGIN_PAGE)
     time.sleep(1)
+    try:
+        WebDriverWait(webdriver, 10).until(  # type: ignore[no-untyped-call]
+            EC.element_to_be_clickable(  # type: ignore[no-untyped-call]
+                (By.CSS_SELECTOR, '#qc-cmp2-usp button[aria-label="CONFIRM"]'),
+            )
+        )
+    except TimeoutException:
+        pass
+
     webdriver.find_element(By.ID, LOGIN_ID).send_keys(creds["username"])
     time.sleep(1)
     webdriver.find_element(By.ID, PASSWORD_ID).send_keys(creds["password"])
