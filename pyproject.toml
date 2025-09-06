@@ -1,0 +1,78 @@
+[project]
+name = "malexport"
+version = "0.1.5"
+description = "backs up info from your MAL account"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+keywords = ["anime", "data", "webscraping"]
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+  "PyYaml",
+  "backoff>=2.0.0",
+  "click>=8.0",
+  "cssselect",
+  "dateparser",
+  "gitpython",
+  "logzero",
+  "lxml",
+  "more-itertools",
+  "requests",
+  "selenium>=4.10.0",
+  "simplejson",
+]
+[[project.authors]]
+name = "purarue"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+malexport = "malexport.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/purarue/malexport"
+
+[project.optional-dependencies]
+manual = ["autotui", "pyfzf-iter"]
+recover = ["hpi"]
+testing = ["flake8", "mypy"]
+
+[tool.mypy]
+pretty = "True"
+show_error_context = "True"
+show_error_codes = "True"
+check_untyped_defs = "True"
+namespace_packages = "True"
+disallow_any_generics = "True"
+disallow_subclassing_any = "True"
+disallow_untyped_calls = "True"
+disallow_untyped_defs = "True"
+disallow_incomplete_defs = "True"
+no_implicit_optional = "True"
+warn_redundant_casts = "True"
+warn_return_any = "True"
+warn_unreachable = "True"
+
+[tool.pytest.ini_options]
+addopts = []
+
+[tool.setuptools.packages.find]
+include = [
+  "malexport",
+  "malexport.utils",
+  "malexport.parse",
+  "malexport.exporter",
+]
+exclude = []
