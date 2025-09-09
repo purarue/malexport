@@ -16,7 +16,7 @@ def compare_lists(
     func2: Callable[[Entry], bool],
     # todo: add more operations (difference, union, etc.)
     operation: str,
-) -> List[Entry]:
+) -> list[Entry]:
     """
     Pass in two animelists and a function to filter the lists with.
     Once the lists are filtered, return

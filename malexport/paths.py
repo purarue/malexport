@@ -95,7 +95,7 @@ class LocalDir:
         # Base directory to store all data
         self.data_dir = _expand_path(self.application_base / self.username)
 
-    def load_or_prompt_mal_client_info(self) -> Dict[str, str]:
+    def load_or_prompt_mal_client_info(self) -> dict[str, str]:
         if not self.mal_client_info.exists():
             click.echo(
                 "No MAL Client Id/Secret found, create an ID (other/hobbyist) at https://myanimelist.net/apiconfig"
@@ -104,10 +104,10 @@ class LocalDir:
             with self.mal_client_info.open("w") as f:
                 json.dump({"client_id": client_id}, f)
         with self.mal_client_info.open() as f:
-            data: Dict[str, str] = json.load(f)
+            data: dict[str, str] = json.load(f)
             return data
 
-    def load_or_prompt_credentials(self) -> Dict[str, str]:
+    def load_or_prompt_credentials(self) -> dict[str, str]:
         if not self.credential_path.exists():
             click.echo(
                 "No credentials found. Enter your username/password for MAL. These are stored locally and used to authenticate a session with MAL",
@@ -117,7 +117,7 @@ class LocalDir:
             password = click.prompt(text="MAL Password")
             with open(self.credential_path, "w") as f:
                 yaml.dump({"username": username, "password": password}, f)
-                click.echo("Saved to {}".format(self.credential_path))
+                click.echo(f"Saved to {self.credential_path}")
         with open(self.credential_path) as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
         return dict(

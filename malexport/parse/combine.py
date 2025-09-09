@@ -29,7 +29,7 @@ FILTER_TAGS = "MALEXPORT_COMBINE_FILTER_TAGS"
 
 class AnimeData(NamedTuple):
     XMLData: AnimeXML
-    history: List[HistoryEntry]
+    history: list[HistoryEntry]
     JSONList: Optional[AnimeEntry]
     APIList: Optional[Entry]
     username: str
@@ -85,7 +85,7 @@ class AnimeData(NamedTuple):
         return self.XMLData.id
 
     @property
-    def tags_list(self) -> List[str]:
+    def tags_list(self) -> list[str]:
         if self.JSONList:
             return split_tags(self.JSONList.tags)
         return []
@@ -93,7 +93,7 @@ class AnimeData(NamedTuple):
 
 class MangaData(NamedTuple):
     XMLData: MangaXML
-    history: List[HistoryEntry]
+    history: list[HistoryEntry]
     JSONList: Optional[MangaEntry]
     APIList: Optional[Entry]
     username: str
@@ -103,7 +103,7 @@ class MangaData(NamedTuple):
         return self.XMLData.id
 
     @property
-    def tags_list(self) -> List[str]:
+    def tags_list(self) -> list[str]:
         if self.JSONList:
             return split_tags(self.JSONList.tags)
         return []
@@ -121,7 +121,7 @@ class MangaData(NamedTuple):
         return None
 
 
-CombineResults = Tuple[List[AnimeData], List[MangaData]]
+CombineResults = tuple[list[AnimeData], list[MangaData]]
 
 
 def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
@@ -133,8 +133,8 @@ def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
 
     # read history
     history = list(iter_history_from_dir(data_dir))
-    anime_history: Dict[int, History] = {}
-    manga_history: Dict[int, History] = {}
+    anime_history: dict[int, History] = {}
+    manga_history: dict[int, History] = {}
     for h in history:
         if h.list_type == "anime":
             # should never overwrite stuff by mistake
@@ -144,8 +144,8 @@ def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
             assert h.mal_id not in manga_history
             manga_history[h.mal_id] = h
 
-    manual_anime_history: Dict[int, History] = {}
-    manual_manga_history: Dict[int, History] = {}
+    manual_anime_history: dict[int, History] = {}
+    manual_manga_history: dict[int, History] = {}
 
     # read manual history
     manual_history_file = data_dir / "manual_history.yaml"
@@ -163,8 +163,8 @@ def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
 
     # there's a possibility that the JSON exports don't
     # exist, because of private lists
-    animelist_json_data: Dict[int, AnimeEntry] = {}
-    mangalist_json_data: Dict[int, MangaEntry] = {}
+    animelist_json_data: dict[int, AnimeEntry] = {}
+    mangalist_json_data: dict[int, MangaEntry] = {}
     if (data_dir / "animelist.json").exists():
         animelist_json_data = {
             el.id: el  # type: ignore[union-attr,misc]
@@ -181,18 +181,18 @@ def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
         }
 
     # xml exports should always exist
-    animelist_xml_data: Dict[int, AnimeXML] = {
+    animelist_xml_data: dict[int, AnimeXML] = {
         el.id: el  # type: ignore[union-attr,misc]
         for el in parse_xml(str(data_dir / "animelist.xml")).entries
     }
-    mangalist_xml_data: Dict[int, MangaXML] = {
+    mangalist_xml_data: dict[int, MangaXML] = {
         el.id: el  # type: ignore[union-attr,misc]
         for el in parse_xml(str(data_dir / "mangalist.xml")).entries
     }
 
     # list using the API
-    animelist_api_json_data: Dict[int, Entry] = {}
-    mangalist_api_json_data: Dict[int, Entry] = {}
+    animelist_api_json_data: dict[int, Entry] = {}
+    mangalist_api_json_data: dict[int, Entry] = {}
     if (data_dir / "animelist_api.json").exists():
         animelist_api_json_data = {
             el.id: el
@@ -208,11 +208,11 @@ def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
             )
         }
 
-    anime_combined_data: Dict[int, AnimeData] = {}
+    anime_combined_data: dict[int, AnimeData] = {}
 
     # combine anime data
     for mal_id, anime_xml in animelist_xml_data.items():
-        anime_hist: List[HistoryEntry] = []
+        anime_hist: list[HistoryEntry] = []
         if mal_id in anime_history:
             anime_hist = anime_history[mal_id].entries
             anime_history.pop(mal_id)  # remove from anime history dict
@@ -230,9 +230,9 @@ def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
             APIList=animelist_api_json_data.pop(mal_id, None),
         )
 
-    manga_combined_data: Dict[int, MangaData] = {}
+    manga_combined_data: dict[int, MangaData] = {}
     for mal_id, manga_xml in mangalist_xml_data.items():
-        manga_hist: List[HistoryEntry] = []
+        manga_hist: list[HistoryEntry] = []
         if mal_id in manga_history:
             manga_hist = manga_history[mal_id].entries
             manga_history.pop(mal_id)  # remove from manga history dict
@@ -275,11 +275,11 @@ def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
     # anything which has those tags would be removed
     # from the results here
     if FILTER_TAGS in os.environ:
-        filter_by_tags: List[str] = os.environ[FILTER_TAGS].split(",")
+        filter_by_tags: list[str] = os.environ[FILTER_TAGS].split(",")
 
         # if this entry has any tags which are in the filter list
         def filter_func(e: Union[AnimeData, MangaData]) -> bool:
-            tags: Set[str] = set(e.tags_list)
+            tags: set[str] = set(e.tags_list)
             return not any(t in filter_by_tags for t in tags)
 
         anime_combined = list(filter(filter_func, anime_combined))

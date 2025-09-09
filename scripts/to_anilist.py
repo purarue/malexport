@@ -15,12 +15,12 @@ from malexport.list_type import ListType
 from malexport.paths import LocalDir
 from malexport.exporter import ExportDownloader
 
-REMOVE_ATTRS = set(["my_tags"])
+REMOVE_ATTRS = {"my_tags"}
 
 
 def remove_attrs(
     xml_file: Path, media_type: ListType, filter_activity: bool
-) -> Tuple[str, int]:
+) -> tuple[str, int]:
     tree = ET.parse(str(xml_file))
     root = tree.getroot()
     root.remove(root.find("myinfo"))

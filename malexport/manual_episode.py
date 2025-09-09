@@ -2,7 +2,8 @@
 
 import datetime
 from pathlib import Path
-from typing import NamedTuple, Iterator, List, Optional
+from typing import NamedTuple, List, Optional
+from collections.abc import Iterator
 from functools import lru_cache
 
 import click
@@ -24,7 +25,7 @@ class Data(NamedTuple):
 
 
 @lru_cache(maxsize=2)
-def parse_xml_cached(xml_file: Path) -> List[Entry]:
+def parse_xml_cached(xml_file: Path) -> list[Entry]:
     return parse_xml(xml_file).entries
 
 

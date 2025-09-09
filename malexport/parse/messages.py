@@ -1,7 +1,8 @@
 import json
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import NamedTuple, List, Iterator, Optional, Dict, Any
+from typing import NamedTuple, List, Optional, Dict, Any
+from collections.abc import Iterator
 
 from ..paths import LocalDir
 
@@ -15,7 +16,7 @@ class Message(NamedTuple):
 class Thread(NamedTuple):
     thread_id: int
     subject: str
-    messages: List[Message]
+    messages: list[Message]
 
     @property
     def url(self) -> str:
@@ -41,7 +42,7 @@ def _parse_thread(thread_file: Path) -> Thread:
     )
 
 
-def _parse_messages(message_data: List[Dict[str, Any]]) -> Iterator[Message]:
+def _parse_messages(message_data: list[dict[str, Any]]) -> Iterator[Message]:
     for msg_data in message_data:
         yield Message(
             at=(

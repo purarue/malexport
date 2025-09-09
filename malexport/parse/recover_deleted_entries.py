@@ -20,8 +20,8 @@ class Approved(NamedTuple):
     of approved MAL IDs
     """
 
-    anime: Set[int]
-    manga: Set[int]
+    anime: set[int]
+    manga: set[int]
 
     @staticmethod
     def git_clone() -> Repo:
@@ -49,7 +49,7 @@ class Approved(NamedTuple):
         return str(cls.git().log().splitlines()[0].split()[-1])
 
     @classmethod
-    def git_pull(cls) -> Tuple[str, str]:
+    def git_pull(cls) -> tuple[str, str]:
         cls.git_clone()
         gg = cls.git()
 
@@ -131,7 +131,7 @@ EXPECTED_FILES = (
 def recover_deleted(
     *,
     approved: Approved,
-    backups: List[Path],
+    backups: list[Path],
     username: str,
     filter_with_activity: bool = False,
     parse_func: Optional[Callable[[Path, str], CombineResults]] = None,
@@ -171,9 +171,9 @@ def recover_deleted(
 
     assert parse_func is not None
 
-    emitted_entries: Set[Tuple[int, str]] = set()
-    emit_anime: List[AnimeData] = []
-    emit_manga: List[MangaData] = []
+    emitted_entries: set[tuple[int, str]] = set()
+    emit_anime: list[AnimeData] = []
+    emit_manga: list[MangaData] = []
 
     for backup in reversed(backups):
         uselogger.debug(f"Recovering deleted entries from {backup}")

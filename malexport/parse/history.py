@@ -1,7 +1,8 @@
 import json
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import NamedTuple, List, Iterator, Tuple, Union, Any
+from typing import NamedTuple, List, Tuple, Union, Any
+from collections.abc import Iterator
 
 from ..paths import LocalDir
 from ..list_type import ListType
@@ -16,7 +17,7 @@ class History(NamedTuple):
     mal_id: int
     list_type: str
     title: str
-    entries: List[HistoryEntry]
+    entries: list[HistoryEntry]
 
     @property
     def url(self) -> str:
@@ -108,8 +109,8 @@ def parse_manual_history(history_file: Path) -> Iterator[History]:
         )
 
 
-def _parse_history_data(history_data: Any) -> Tuple[str, List[HistoryEntry]]:
-    entries: List[HistoryEntry] = []
+def _parse_history_data(history_data: Any) -> tuple[str, list[HistoryEntry]]:
+    entries: list[HistoryEntry] = []
     for entry_data in history_data["episodes"]:
         [num, epoch] = entry_data
         entries.append(

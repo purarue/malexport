@@ -129,7 +129,7 @@ class ExportDownloader:
 
     def _list_files(
         self, path: str = TEMP_DOWNLOAD_DIR, list_type: Optional[ListType] = None
-    ) -> List[str]:
+    ) -> list[str]:
         """List files in the temporary download directory"""
         files = os.listdir(path)
         animelist_gzs = [

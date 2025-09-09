@@ -305,7 +305,7 @@ def _manual_history_parse(
     from .common import serialize
 
     localdir = LocalDir.from_username(username)
-    data: List[History] = list(
+    data: list[History] = list(
         parse_manual_history(localdir.data_dir / "manual_history.yaml")
     )
 
@@ -429,7 +429,7 @@ def backup(username: str) -> None:
 
     click.echo(f"Backed up {from_dir} to {backup_zip_full}", err=True)
     click.echo(
-        "Backup Size: {:.2f} MB".format(Path(backup_zip_full).stat().st_size / 1024**2),
+        f"Backup Size: {Path(backup_zip_full).stat().st_size / 1024**2:.2f} MB",
         err=True,
     )
 

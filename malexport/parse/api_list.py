@@ -1,5 +1,6 @@
 import json
-from typing import NamedTuple, List, Optional, TypeVar, Iterator, Dict, Any
+from typing import NamedTuple, List, Optional, TypeVar, Dict, Any
+from collections.abc import Iterator
 from datetime import date, datetime
 
 from .common import parse_date_safe
@@ -15,8 +16,8 @@ class Entry(NamedTuple):
     entry_type: ListType
     id: int
     title: str
-    main_picture: Dict[str, str]
-    alternative_titles: Dict[str, Any]
+    main_picture: dict[str, str]
+    alternative_titles: dict[str, Any]
     start_date: Optional[date]
     end_date: Optional[date]
     synopsis: str
@@ -30,14 +31,14 @@ class Entry(NamedTuple):
     updated_at: datetime
     media_type: str
     status: str
-    genres: List[IdInfo]
-    list_status: Dict[str, Any]
+    genres: list[IdInfo]
+    list_status: dict[str, Any]
     episode_count: Optional[int]
     season: Optional[Season]
     source: Optional[str]
     average_episode_duration: Optional[int]
     rating: Optional[str]
-    studios: List[IdInfo]
+    studios: list[IdInfo]
 
     @classmethod
     def _parse(cls, el: Json, list_type: ListType) -> "Entry":

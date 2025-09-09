@@ -18,10 +18,10 @@ def strtoint(val: str) -> int:
     elif val in ("n", "no", "f", "false", "off", "0"):
         return 0
     else:
-        raise ValueError("invalid truth value %r" % (val,))
+        raise ValueError(f"invalid truth value {val!r}")
 
 
-def split_tags(tags: str) -> List[str]:
+def split_tags(tags: str) -> list[str]:
     return list(re.split(r"\s*,\s*", tags.strip()))
 
 
@@ -58,7 +58,7 @@ def parse_short_date(d: Optional[str]) -> Optional[date]:
     short_cutoff = int(str(CUTOFF_DATE)[-2:])
     m = DATE_REGEX.match(d)
     if m:
-        day, month, year_short = [int(k) for k in m.groups()]
+        day, month, year_short = (int(k) for k in m.groups())
         if year_short < short_cutoff:
             year = 2000 + year_short
         else:

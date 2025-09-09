@@ -2,7 +2,8 @@ import os
 import time
 import warnings
 import datetime
-from typing import Any, Generator, Optional, Callable, Type, cast, Sequence, Union
+from typing import Any, Optional, Callable, Type, cast, Union
+from collections.abc import Generator, Sequence
 from urllib.parse import urlparse, parse_qs
 
 import requests
@@ -39,7 +40,7 @@ def backoff_hdlr(details: Any) -> None:
 
 @backoff.on_exception(
     fibo_backoff,
-    cast(Sequence[Type[Exception]], (requests.RequestException,)),
+    cast(Sequence[type[Exception]], (requests.RequestException,)),
     max_tries=3,
     on_backoff=backoff_hdlr,
 )

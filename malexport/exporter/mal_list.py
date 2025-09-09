@@ -73,7 +73,7 @@ class MalList:
     def list_path(self) -> Path:
         return self.localdir.data_dir / f"{self.list_type.value}list.json"
 
-    def load_list(self) -> List[Json]:
+    def load_list(self) -> list[Json]:
         """
         Load the list from the JSON file
         """
@@ -89,7 +89,7 @@ class MalList:
         Paginate through all the data till you hit a chunk of data which has
         less than OFFSET_CHUNK (300) items
         """
-        list_data: List[Json] = []
+        list_data: list[Json] = []
         # overwrite the list with new data
         offset = 0
         session = requests.Session()

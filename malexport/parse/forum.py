@@ -2,7 +2,8 @@ import os
 import json
 import glob
 from datetime import datetime
-from typing import NamedTuple, Iterator
+from typing import NamedTuple
+from collections.abc import Iterator
 
 from ..paths import LocalDir
 
@@ -28,7 +29,7 @@ def _extract_posts_by_user(forum_path: str, username: str) -> Iterator[Post]:
     forum_id, _ = os.path.splitext(os.path.basename(forum_path))
     if not forum_id.isnumeric():  # not a valid post, probably index.json
         return
-    with open(forum_path, "r") as f:
+    with open(forum_path) as f:
         data = json.load(f)
     for post in data["posts"]:
         if username.casefold() == post["created_by"]["name"].casefold():

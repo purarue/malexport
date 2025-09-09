@@ -9,7 +9,8 @@ import os
 import json
 import time
 from pathlib import Path
-from typing import List, Optional, Dict, Iterator, Any, Tuple, Union
+from typing import List, Optional, Dict, Any, Tuple, Union
+from collections.abc import Iterator
 
 import dateparser
 import more_itertools
@@ -47,7 +48,7 @@ class MessageDownloader:
         # stop requesting
         self.till_same_limit: int = int(till_same_limit or TILL_SAME_LIMIT)
         self.message_base_path: Path = _expand_path(self.localdir.data_dir / "messages")
-        self.msg_to_thread: Dict[int, int] = {}
+        self.msg_to_thread: dict[int, int] = {}
 
         self.driver_type = driver_type
         self.driver = webdriver(self.driver_type)
@@ -76,7 +77,7 @@ class MessageDownloader:
         hx = ht.fromstring(html_details)
         table = hx.cssselect("table.pmessage-message-history")[0]
         subject = hx.cssselect(".dialog-text .mb4")[-1]
-        data: Dict[str, Any] = {
+        data: dict[str, Any] = {
             "messages": [],
             "subject": self._fix_subject(subject.text_content()),  # type: ignore[attr-defined]
         }
@@ -97,7 +98,7 @@ class MessageDownloader:
         logger.debug(data)
         return data
 
-    def message_ids_for_page(self, page: int = 1, sent: bool = False) -> List[int]:
+    def message_ids_for_page(self, page: int = 1, sent: bool = False) -> list[int]:
         """
         Goes to the message ids for a particular page of your messages
         """
@@ -115,7 +116,7 @@ class MessageDownloader:
             for a in self.driver.find_elements(By.CSS_SELECTOR, "a.subject-link")
         ]
 
-    def iter_message_ids(self, start_page: int = 1) -> Iterator[Tuple[bool, int]]:
+    def iter_message_ids(self, start_page: int = 1) -> Iterator[tuple[bool, int]]:
         """
         lazily retrieves new messages IDs for your user
         swaps between received messages and sent messages, so that
@@ -123,14 +124,13 @@ class MessageDownloader:
         """
         page = int(start_page)
         while True:
-            message_ids: List[int] = self.message_ids_for_page(page)
-            sent_ids: List[int] = self.message_ids_for_page(page, sent=True)
+            message_ids: list[int] = self.message_ids_for_page(page)
+            sent_ids: list[int] = self.message_ids_for_page(page, sent=True)
             tagged_msg_id = [(False, mid) for mid in message_ids]
             tagged_sent_ids = [(True, mid) for mid in sent_ids]
-            for sent, msg_id in more_itertools.interleave_longest(
+            yield from more_itertools.interleave_longest(
                 tagged_msg_id, tagged_sent_ids
-            ):
-                yield sent, msg_id
+            )
             if len(message_ids) == 0 and len(sent_ids) == 0:
                 return
             page += 1

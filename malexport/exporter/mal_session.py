@@ -8,7 +8,8 @@ import json
 import base64
 import webbrowser
 from urllib.parse import urlencode, urlparse, parse_qs
-from typing import Dict, Any, cast, Iterator
+from typing import Dict, Any, cast
+from collections.abc import Iterator
 
 import requests
 import click
@@ -60,20 +61,20 @@ class MalSession:
         logger.debug(f"Access Token: {access_token}")
         self.session.headers.update({"Authorization": f"Bearer {access_token}"})
 
-    def refresh_info(self) -> Dict[str, str]:
+    def refresh_info(self) -> dict[str, str]:
         """
         Load or run the OAuth flow to get an access_token for the MAL API
         """
         if self.localdir.refresh_info.exists():
             try:
                 return cast(
-                    Dict[str, str], json.loads(self.localdir.refresh_info.read_text())
+                    dict[str, str], json.loads(self.localdir.refresh_info.read_text())
                 )
             except json.JSONDecodeError:
                 pass
         return self.oauth_flow()
 
-    def oauth_flow(self) -> Dict[str, str]:
+    def oauth_flow(self) -> dict[str, str]:
         """
         Run the OAuth flow for MALs API
         """
@@ -119,7 +120,7 @@ class MalSession:
             },
             auth=(self.client_id, ""),  # leave client secret empty
         )
-        refresh_info: Dict[str, str] = refresh_req.json()
+        refresh_info: dict[str, str] = refresh_req.json()
         logger.debug(refresh_info)
         if refresh_req.status_code != 200:
             raise RuntimeError(f"Error: {refresh_info}")
@@ -183,9 +184,9 @@ class MalSession:
         )
         return r
 
-    def safe_json_request(self, url: str, **kwargs: Any) -> Dict[str, Any]:
+    def safe_json_request(self, url: str, **kwargs: Any) -> dict[str, Any]:
         """
         A wrapper for the safe_json_request -- makes an authenticated request
         to the MAL API, waits a bit, parses it to JSON
         """
-        return cast(Dict[str, Any], self.safe_request(url, **kwargs).json())
+        return cast(dict[str, Any], self.safe_request(url, **kwargs).json())

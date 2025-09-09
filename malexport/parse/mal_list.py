@@ -1,5 +1,6 @@
 import json
-from typing import NamedTuple, Union, List, Optional, TypeVar, Iterator
+from typing import NamedTuple, Union, List, Optional, TypeVar
+from collections.abc import Iterator
 from datetime import date
 
 from .common import strtobool, parse_short_date
@@ -10,8 +11,8 @@ from ..paths import PathIsh, _expand_file
 T = TypeVar("T")
 
 
-def filter_none(lst: List[Optional[T]]) -> List[T]:
-    lst_new: List[T] = []
+def filter_none(lst: list[Optional[T]]) -> list[T]:
+    lst_new: list[T] = []
     for x in lst:
         if x is not None:
             lst_new.append(x)
@@ -30,7 +31,7 @@ class IdInfo(NamedTuple):
             return None
 
     @classmethod
-    def _parse_id_list(cls, el: Json, key: str) -> List["IdInfo"]:
+    def _parse_id_list(cls, el: Json, key: str) -> list["IdInfo"]:
         return filter_none([cls._parse(e) for e in list(el.get(key) or [])])
 
 
@@ -91,10 +92,10 @@ class AnimeEntry(NamedTuple):
     episodes: int
     airing_status: str
     id: int
-    studios: List[IdInfo]
-    licensors: List[IdInfo]
-    genres: List[IdInfo]
-    demographics: List[IdInfo]
+    studios: list[IdInfo]
+    licensors: list[IdInfo]
+    genres: list[IdInfo]
+    demographics: list[IdInfo]
     season: Optional[Season]
     has_episode_video: bool
     has_promotion_video: bool
@@ -161,9 +162,9 @@ class MangaEntry(NamedTuple):
     volumes: int
     publishing_status: str
     id: int
-    genres: List[IdInfo]
-    demographics: List[IdInfo]
-    manga_magazines: List[IdInfo]
+    genres: list[IdInfo]
+    demographics: list[IdInfo]
+    manga_magazines: list[IdInfo]
     url: str
     image_path: str
     is_added_to_list: bool

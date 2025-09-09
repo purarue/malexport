@@ -39,7 +39,7 @@ TEMP_DOWNLOAD_DIR = tempfile.mkdtemp(
 )
 
 # global so user can edit before a driver is created if they want
-CHROME_KWARGS: Dict[str, Any] = {}
+CHROME_KWARGS: dict[str, Any] = {}
 
 
 BrowserType = str

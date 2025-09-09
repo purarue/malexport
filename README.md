@@ -19,7 +19,7 @@ For most people, this'll take a few hours to populate the initial cache, and the
 
 ## Installation
 
-Requires `python3.9+`
+Requires `python3.10+`
 
 To install with pip, run:
 

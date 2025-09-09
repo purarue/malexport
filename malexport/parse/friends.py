@@ -1,4 +1,5 @@
-from typing import NamedTuple, Iterator
+from typing import NamedTuple
+from collections.abc import Iterator
 from datetime import datetime
 import json
 

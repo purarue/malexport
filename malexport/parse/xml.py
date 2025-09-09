@@ -11,7 +11,7 @@ from .common import parse_date_safe, strtobool
 # hmm.. can't figure out the types for this
 XMLElement = Any
 
-Info = Dict[str, Union[int, str]]
+Info = dict[str, Union[int, str]]
 
 
 # TODO: some of these are None if the text is empty, not sure how to mark those
@@ -137,7 +137,7 @@ Entry = Union[AnimeXML, MangaXML]
 class XMLExport(NamedTuple):
     list_type: str
     info: Info
-    entries: List[Entry]
+    entries: list[Entry]
 
     @staticmethod
     def _parse_info(info: XMLElement) -> Info:
@@ -156,7 +156,7 @@ class XMLExport(NamedTuple):
         info = cls._parse_info(root.find("myinfo"))
         export_type = int(info["user_export_type"])
         list_type: ListType
-        entries: List[Entry] = []
+        entries: list[Entry] = []
         if export_type == 1:
             list_type = ListType.ANIME
             entries = [AnimeXML._parse(el) for el in root.findall("anime")]

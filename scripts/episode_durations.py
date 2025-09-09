@@ -52,7 +52,7 @@ def main(
     username: str, output_format: OutputFormat, sort_by: str, reverse: bool
 ) -> None:
     anime_data, _ = combine(username)
-    durations: List[DurationInfo] = []
+    durations: list[DurationInfo] = []
 
     for anime in anime_data:
         assert (

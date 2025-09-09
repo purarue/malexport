@@ -12,7 +12,8 @@ import time
 import atexit
 from itertools import islice
 from pathlib import Path
-from typing import Tuple, List, Optional, Iterable, Dict, Any, Union, Set
+from typing import Tuple, List, Optional, Dict, Any, Union, Set
+from collections.abc import Iterable
 from datetime import datetime
 
 from lxml import html as ht  # type: ignore[import]
@@ -57,7 +58,7 @@ CHAPTER_COL_REGEX = re.compile(
 
 def _extract_column_data(
     col_html: Union[str, None, Any], list_type: ListType
-) -> Tuple[int, int]:
+) -> tuple[int, int]:
     """
     Returns the episode/chapter number and the date as epoch time
     """
@@ -103,7 +104,7 @@ class HistoryManager:
         # stop requesting
         self.till_same_limit = till_same_limit
         self.use_merged_file = use_merged_file
-        self.merged_data: Optional[Dict[str, Any]] = None
+        self.merged_data: Optional[dict[str, Any]] = None
 
         self.history_path: Path
         if self.use_merged_file:
@@ -125,7 +126,7 @@ class HistoryManager:
 
         # a list of IDs already requested by this instance, to avoid
         # duplicates across strategies
-        self.already_requested: Set[int] = set()
+        self.already_requested: set[int] = set()
 
         self.container_id = (
             "chapdetails" if self.list_type == ListType.MANGA else "epdetails"
@@ -215,7 +216,7 @@ class HistoryManager:
         assert isinstance(header[0].text, str)  # type: ignore[union-attr]
         title = header[0].text.strip()  # type: ignore[union-attr]
         title = " ".join(title.split(" ")[:-2]).strip()
-        data: Dict[str, Any] = {"title": title}
+        data: dict[str, Any] = {"title": title}
         # parse episodes/chapters; fine even if there are no episode/chapter elements
         episode_elements = x.xpath(f'.//div[starts-with(@id, "{self.idprefix}")]')
         assert isinstance(episode_elements, list)
@@ -229,7 +230,7 @@ class HistoryManager:
         logger.debug(data)
         return data
 
-    def download_recent_user_history(self) -> List[int]:
+    def download_recent_user_history(self) -> list[int]:
         """
         Goes to the history page in the authenticated browser
         and grabs IDs for any items which were recently watched/read
@@ -246,7 +247,7 @@ class HistoryManager:
         content_div_html = content_div.get_attribute("innerHTML")
         assert isinstance(content_div_html, str)
         x = ht.fromstring(content_div_html)
-        found_ids: List[int] = []
+        found_ids: list[int] = []
         hist_items = x.xpath(
             f'.//a[starts-with(@href, "/{self.list_type.value}.php?id=")]'
         )
@@ -382,7 +383,7 @@ class HistoryManager:
         self._save_merged_file()
 
 
-REGISTERED: Set[Path] = set()
+REGISTERED: set[Path] = set()
 
 
 def _register_atexit(path: Path, manager: HistoryManager) -> None:

@@ -43,7 +43,7 @@ class APIList:
             list_type=self.list_type.value,
             username=self.localdir.username,
         )
-        data: List[Json] = []
+        data: list[Json] = []
         for resp in self.mal_session.paginate_all_data(first_url):
             for entry in resp:
                 data.append(entry["node"])

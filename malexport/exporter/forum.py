@@ -3,7 +3,7 @@ Uses MALs API to download forum posts
 """
 
 import json
-from typing import Iterator
+from collections.abc import Iterator
 
 from .mal_session import MalSession
 from ..paths import LocalDir, _expand_path

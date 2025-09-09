@@ -21,9 +21,9 @@ class FriendDownloader:
         assert page >= 1
         return f"https://api.jikan.moe/v4/users/{self.localdir.username}/friends?page={page}"
 
-    def download_friend_index(self) -> List[Json]:
+    def download_friend_index(self) -> list[Json]:
         page = 1
-        data: List[Json] = []
+        data: list[Json] = []
         while True:
             try:
                 new_data = safe_request_json(self.friend_page_url(page))
