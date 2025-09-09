@@ -11,7 +11,7 @@ malexport update export -u <username>
 
 import json
 import csv
-from typing import NamedTuple, Optional, List, Literal, get_args
+from typing import NamedTuple, Literal, get_args
 
 import click
 from malexport.__main__ import USERNAME

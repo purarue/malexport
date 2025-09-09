@@ -6,7 +6,7 @@ import os
 import time
 import shutil
 import gzip
-from typing import List, Optional
+from typing import Optional
 
 from selenium.webdriver.support.ui import WebDriverWait  # type: ignore[import]
 from selenium.webdriver.common.by import By  # type: ignore[import]

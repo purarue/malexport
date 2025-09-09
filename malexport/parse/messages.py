@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import NamedTuple, List, Optional, Dict, Any
+from typing import NamedTuple, Optional, Any
 from collections.abc import Iterator
 
 from ..paths import LocalDir

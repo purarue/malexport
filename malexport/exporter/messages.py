@@ -9,7 +9,7 @@ import os
 import json
 import time
 from pathlib import Path
-from typing import List, Optional, Dict, Any, Tuple, Union
+from typing import Optional, Any, Union
 from collections.abc import Iterator
 
 import dateparser

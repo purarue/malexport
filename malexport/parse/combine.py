@@ -4,7 +4,7 @@ export and history modules into data I find useful
 """
 
 import os
-from typing import Dict, List, NamedTuple, Optional, TypeVar, Tuple, Union, Set
+from typing import NamedTuple, Optional, TypeVar, Union
 from pathlib import Path
 from datetime import date
 

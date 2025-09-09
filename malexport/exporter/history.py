@@ -12,7 +12,7 @@ import time
 import atexit
 from itertools import islice
 from pathlib import Path
-from typing import Tuple, List, Optional, Dict, Any, Union, Set
+from typing import Optional, Any, Union
 from collections.abc import Iterable
 from datetime import datetime
 

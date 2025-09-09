@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from typing import List, Callable
+from typing import Callable
 
 import click
 

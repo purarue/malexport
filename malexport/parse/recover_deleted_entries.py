@@ -1,7 +1,7 @@
 import sys
 import json
 import logging
-from typing import List, Set, NamedTuple, Callable, Tuple, Optional
+from typing import NamedTuple, Callable, Optional
 from pathlib import Path
 
 from git.repo.base import Repo  # type: ignore[import]

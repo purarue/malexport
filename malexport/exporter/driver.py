@@ -9,7 +9,7 @@ import random
 import atexit
 from pathlib import Path
 from functools import lru_cache
-from typing import Optional, Dict, Any, Union
+from typing import Optional, Any, Union
 
 import click
 from selenium import webdriver as sel

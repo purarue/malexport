@@ -2,7 +2,6 @@
 Requests MAL Lists (animelist/mangalist) for a user, using MAL API
 """
 
-from typing import List
 from pathlib import Path
 
 from ..list_type import ListType

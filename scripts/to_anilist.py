@@ -6,7 +6,6 @@ it can imported to anilist without cloudflare timing out
 """
 
 from functools import partial
-from typing import Tuple
 from pathlib import Path
 
 import click

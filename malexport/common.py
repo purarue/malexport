@@ -2,7 +2,7 @@ import os
 import time
 import warnings
 import datetime
-from typing import Any, Optional, Callable, Type, cast, Union
+from typing import Any, Optional, Callable, cast, Union
 from collections.abc import Generator, Sequence
 from urllib.parse import urlparse, parse_qs
 

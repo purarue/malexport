@@ -8,7 +8,7 @@ import json
 import base64
 import webbrowser
 from urllib.parse import urlencode, urlparse, parse_qs
-from typing import Dict, Any, cast
+from typing import Any, cast
 from collections.abc import Iterator
 
 import requests

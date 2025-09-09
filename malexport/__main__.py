@@ -1,7 +1,7 @@
 import os
 import sys
 from pathlib import Path
-from typing import Callable, Optional, Any, Literal, List
+from typing import Callable, Optional, Any, Literal
 
 import click
 
@@ -562,7 +562,6 @@ def manual_history(
     from .manual_episode import add_to_history
 
     if edit:
-        pass
         data_dir = LocalDir.from_username(username).data_dir
         filename = data_dir / "manual_history.yaml"
         click.edit(filename=str(filename), extension=".yaml")

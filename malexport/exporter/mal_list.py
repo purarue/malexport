@@ -8,7 +8,6 @@ mechanism that works on modern MAL lists
 
 import os
 import json
-from typing import List
 from pathlib import Path
 
 import requests

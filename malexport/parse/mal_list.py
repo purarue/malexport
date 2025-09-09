@@ -1,5 +1,5 @@
 import json
-from typing import NamedTuple, Union, List, Optional, TypeVar
+from typing import NamedTuple, Union, Optional, TypeVar
 from collections.abc import Iterator
 from datetime import date
 
