@@ -114,6 +114,23 @@ def driver_login(webdriver: Browser, localdir: LocalDir) -> None:
     if len(opt_out) > 0:
         opt_out[0].click()
         time.sleep(2)
+        buttons = webdriver.find_elements(By.TAG_NAME, "button")
+        by_aria_label = [
+            e for e in buttons if e.get_attribute("aria-label") == "Close success modal"
+        ]
+        if by_aria_label:
+            by_aria_label[0].click()
+            time.sleep(1)
+        else:
+            by_ok = [e for e in buttons if e.text == "OK"]
+            if by_ok:
+                by_ok[0].click()
+                time.sleep(1)
+            else:
+                click.echo(
+                    "WARNING: Could not find success modal after accepting terms",
+                    err=True,
+                )
     webdriver.find_element(By.ID, LOGIN_ID).send_keys(creds["username"])
     time.sleep(1)
     webdriver.find_element(By.ID, PASSWORD_ID).send_keys(creds["password"])
