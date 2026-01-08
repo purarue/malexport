@@ -17,6 +17,7 @@ Json = Any
 from malexport.log import logger
 
 REQUEST_WAIT_TIME: int = int(os.environ.get("MALEXPORT_REQUEST_WAIT_TIME", 10))
+REQUEST_TIMEOUT: int = int(os.environ.get("MALEXPORT_REQUEST_TIMEOUT", 10))
 
 
 def fibo_backoff() -> Generator[float, None, None]:
@@ -65,7 +66,7 @@ def safe_request(
         sess = requests.Session()
     logger.info(f"Requesting {url}...")
     kwargs.setdefault("allow_redirects", True)
-    r = sess.request(method, url, **kwargs)
+    r = sess.request(method, url, timeout=REQUEST_TIMEOUT, **kwargs)
     try:
         r.raise_for_status()
     except requests.RequestException as e:
