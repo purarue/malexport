@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import NamedTuple, Union, Any
+from typing import NamedTuple, Any
 from collections.abc import Iterator
 
 from ..paths import LocalDir
@@ -40,7 +40,7 @@ def iter_history_from_dir(data_dir: Path) -> Iterator[History]:
 
 
 def _parse_merged_history(
-    merged_history_file: Path, list_type: Union[str, ListType]
+    merged_history_file: Path, list_type: str | ListType
 ) -> Iterator[History]:
     lt: str = list_type.value.lower() if isinstance(list_type, ListType) else list_type
     if not merged_history_file.exists():
@@ -59,7 +59,7 @@ def _parse_merged_history(
 
 
 def parse_history_dir(
-    history_dir: Path, list_type: Union[str, ListType]
+    history_dir: Path, list_type: str | ListType
 ) -> Iterator[History]:
     if not history_dir.exists():
         return

@@ -1,4 +1,4 @@
-from typing import NamedTuple, Optional, Union, Any
+from typing import NamedTuple, Union, Any
 from datetime import date
 
 
@@ -22,8 +22,8 @@ class AnimeXML(NamedTuple):
     episodes: int
     my_id: int
     watched_episodes: int
-    start_date: Optional[date]
-    finish_date: Optional[date]
+    start_date: date | None
+    finish_date: date | None
     rated: str
     score: int
     storage: str
@@ -81,8 +81,8 @@ class MangaXML(NamedTuple):
     my_id: int
     read_volumes: int
     read_chapters: int
-    start_date: Optional[date]
-    finish_date: Optional[date]
+    start_date: date | None
+    finish_date: date | None
     scanlation_group: str
     score: int
     storage: str

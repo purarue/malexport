@@ -1,7 +1,8 @@
 import sys
 import json
 import logging
-from typing import NamedTuple, Callable, Optional
+from typing import NamedTuple
+from collections.abc import Callable
 from pathlib import Path
 
 from git.repo.base import Repo  # type: ignore[import]
@@ -92,7 +93,7 @@ def recover_deleted_single(
     from_backup_dir: Path,
     username: str,
     filter_with_activity: bool = False,
-    parse_func: Optional[Callable[[Path, str], CombineResults]] = None,
+    parse_func: Callable[[Path, str], CombineResults] | None = None,
 ) -> CombineResults:
     """
     returns any data from a backup that is not in the approved list
@@ -134,8 +135,8 @@ def recover_deleted(
     backups: list[Path],
     username: str,
     filter_with_activity: bool = False,
-    parse_func: Optional[Callable[[Path, str], CombineResults]] = None,
-    logger: Optional[logging.Logger] = None,
+    parse_func: Callable[[Path, str], CombineResults] | None = None,
+    logger: logging.Logger | None = None,
 ) -> CombineResults:
     """
     parses each backup in reverse order using parse_func, and returns the

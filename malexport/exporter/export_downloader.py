@@ -6,7 +6,6 @@ import os
 import time
 import shutil
 import gzip
-from typing import Optional
 
 from selenium.webdriver.support.ui import WebDriverWait  # type: ignore[import]
 from selenium.webdriver.common.by import By  # type: ignore[import]
@@ -37,7 +36,7 @@ class ExportDownloader:
         self.localdir = localdir
         self.animelist_path = self.localdir.data_dir / "animelist.xml"
         self.mangalist_path = self.localdir.data_dir / "mangalist.xml"
-        self._driver: Optional[Browser] = None
+        self._driver: Browser | None = None
         self._unlink_temp_gz_files = unlink_temp_gz_files
 
     @property
@@ -128,7 +127,7 @@ class ExportDownloader:
             raise RuntimeError("Found 500 error, retrying...")
 
     def _list_files(
-        self, path: str = TEMP_DOWNLOAD_DIR, list_type: Optional[ListType] = None
+        self, path: str = TEMP_DOWNLOAD_DIR, list_type: ListType | None = None
     ) -> list[str]:
         """List files in the temporary download directory"""
         files = os.listdir(path)

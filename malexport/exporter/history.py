@@ -12,7 +12,7 @@ import time
 import atexit
 from itertools import islice
 from pathlib import Path
-from typing import Optional, Any, Union
+from typing import Any
 from collections.abc import Iterable
 from datetime import datetime
 
@@ -57,7 +57,7 @@ CHAPTER_COL_REGEX = re.compile(
 
 
 def _extract_column_data(
-    col_html: Union[str, None, Any], list_type: ListType
+    col_html: str | None | Any, list_type: ListType
 ) -> tuple[int, int]:
     """
     Returns the episode/chapter number and the date as epoch time
@@ -104,7 +104,7 @@ class HistoryManager:
         # stop requesting
         self.till_same_limit = till_same_limit
         self.use_merged_file = use_merged_file
-        self.merged_data: Optional[dict[str, Any]] = None
+        self.merged_data: dict[str, Any] | None = None
 
         self.history_path: Path
         if self.use_merged_file:
@@ -133,7 +133,7 @@ class HistoryManager:
         )
         self.idprefix = "chaprow" if self.list_type == ListType.MANGA else "eprow"
         self.driver_type = driver_type
-        self._driver: Optional[Browser] = None
+        self._driver: Browser | None = None
 
     @property
     def driver(self) -> Browser:
@@ -307,7 +307,7 @@ class HistoryManager:
             self._save_merged_file()
         return self.save_data(entry_id, new_data)
 
-    def update_history(self, count: Optional[int] = None) -> None:
+    def update_history(self, count: int | None = None) -> None:
         """
         If data doesn't exist at all for an entry, this requests
         info. Then, after that, this employs two strategies to update history data

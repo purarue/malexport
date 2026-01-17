@@ -2,7 +2,8 @@ import os
 import time
 import warnings
 import datetime
-from typing import Any, Optional, Callable, cast, Union
+from typing import Any, cast
+from collections.abc import Callable
 from collections.abc import Generator, Sequence
 from urllib.parse import urlparse, parse_qs
 
@@ -49,8 +50,8 @@ def safe_request(
     url: str,
     *,
     method: str = "GET",
-    session: Optional[requests.Session] = None,
-    on_error: Optional[Callable[[requests.Response], Any]] = None,
+    session: requests.Session | None = None,
+    on_error: Callable[[requests.Response], Any] | None = None,
     wait_time: int = REQUEST_WAIT_TIME,
     **kwargs: Any,
 ) -> requests.Response:
@@ -77,7 +78,7 @@ def safe_request(
 
 
 def safe_request_json(
-    url: str, session: Optional[requests.Session] = None, **kwargs: Any
+    url: str, session: requests.Session | None = None, **kwargs: Any
 ) -> Any:
     """
     Run a safe_request, then parse the response to JSON
@@ -112,7 +113,7 @@ def serialize(data: Any) -> str:
         )
 
 
-def extract_query_value(url: Union[str, None], param: Union[str, None]) -> str:
+def extract_query_value(url: str | None, param: str | None) -> str:
     assert url is not None, "missing URL to extract query value from"
     assert param is not None, "missing parameter to extract from URL"
     query_list = parse_qs(urlparse(url).query)[param]

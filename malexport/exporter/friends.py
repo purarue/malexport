@@ -1,4 +1,3 @@
-
 import requests
 
 from ..paths import LocalDir, _expand_file

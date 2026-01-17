@@ -1,5 +1,5 @@
 import json
-from typing import NamedTuple, Optional, TypeVar, Any
+from typing import NamedTuple, TypeVar, Any
 from collections.abc import Iterator
 from datetime import date, datetime
 
@@ -18,11 +18,11 @@ class Entry(NamedTuple):
     title: str
     main_picture: dict[str, str]
     alternative_titles: dict[str, Any]
-    start_date: Optional[date]
-    end_date: Optional[date]
+    start_date: date | None
+    end_date: date | None
     synopsis: str
-    mean: Optional[float]
-    rank: Optional[int]
+    mean: float | None
+    rank: int | None
     popularity: int
     num_list_users: int
     num_scoring_users: int
@@ -33,11 +33,11 @@ class Entry(NamedTuple):
     status: str
     genres: list[IdInfo]
     list_status: dict[str, Any]
-    episode_count: Optional[int]
-    season: Optional[Season]
-    source: Optional[str]
-    average_episode_duration: Optional[int]
-    rating: Optional[str]
+    episode_count: int | None
+    season: Season | None
+    source: str | None
+    average_episode_duration: int | None
+    rating: str | None
     studios: list[IdInfo]
 
     @classmethod

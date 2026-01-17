@@ -1,6 +1,5 @@
 import os
 import re
-from typing import Optional, Union
 from datetime import date
 
 
@@ -25,7 +24,7 @@ def split_tags(tags: str) -> list[str]:
     return list(re.split(r"\s*,\s*", tags.strip()))
 
 
-def parse_date_safe(d: Optional[str]) -> Optional[date]:
+def parse_date_safe(d: str | None) -> date | None:
     if d is None:
         return None
     if isinstance(d, str) and len(d.strip()) == 4 and d.isdigit():
@@ -47,7 +46,7 @@ CUTOFF_DATE = int(os.environ.get("MALEXPORT_CUTOFF_DATE", date.today().year + 5)
 DATE_REGEX = re.compile(r"(\d+)-(\d+)-(\d+)")
 
 
-def parse_short_date(d: Optional[str]) -> Optional[date]:
+def parse_short_date(d: str | None) -> date | None:
     """
     Parses dates that look like '30-06-73' or '04-09-20'
     Is not always 100% accurate because '04-09-20'
@@ -76,7 +75,7 @@ def parse_short_date(d: Optional[str]) -> Optional[date]:
         return None
 
 
-def strtobool(val: Union[str, int, bool, None]) -> bool:
+def strtobool(val: str | int | bool | None) -> bool:
     if val is None:
         return False
     if isinstance(val, bool):

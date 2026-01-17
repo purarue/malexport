@@ -9,7 +9,7 @@ import os
 import json
 import time
 from pathlib import Path
-from typing import Optional, Any, Union
+from typing import Any
 from collections.abc import Iterator
 
 import dateparser
@@ -28,7 +28,7 @@ from ..common import Json, extract_query_value, serialize
 TILL_SAME_LIMIT = int(os.environ.get("MALEXPORT_THREAD_LIMIT", 10))
 
 
-def dateparse_to_epoch(datestr: str) -> Optional[int]:
+def dateparse_to_epoch(datestr: str) -> int | None:
     val = dateparser.parse(datestr.strip())
     if val:
         return int(val.timestamp())
@@ -40,7 +40,7 @@ class MessageDownloader:
         self,
         localdir: LocalDir,
         driver_type: str = "chrome",
-        till_same_limit: Optional[int] = None,
+        till_same_limit: int | None = None,
     ) -> None:
         self.localdir = localdir
         # if we request this many items and there is no difference
@@ -67,7 +67,7 @@ class MessageDownloader:
             s = s[len("re:") :]
         return s.strip()
 
-    def _extract_details(self, html_details: Union[str, None]) -> Json:
+    def _extract_details(self, html_details: str | None) -> Json:
         """
         Given the HTML div which contains the container for messages,
         parse it into JSON
@@ -184,7 +184,7 @@ class MessageDownloader:
         return has_new_data
 
     def update_messages(
-        self, start_page: int = 1, thread_count: Optional[int] = None
+        self, start_page: int = 1, thread_count: int | None = None
     ) -> None:
         self.authenticate()
 

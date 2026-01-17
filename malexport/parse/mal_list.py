@@ -11,7 +11,7 @@ from ..paths import PathIsh, _expand_file
 T = TypeVar("T")
 
 
-def filter_none(lst: list[Optional[T]]) -> list[T]:
+def filter_none(lst: list[T | None]) -> list[T]:
     lst_new: list[T] = []
     for x in lst:
         if x is not None:
@@ -24,7 +24,7 @@ class IdInfo(NamedTuple):
     name: str
 
     @staticmethod
-    def _parse(data: Optional[Json]) -> Optional["IdInfo"]:
+    def _parse(data: Json | None) -> Optional["IdInfo"]:
         if isinstance(data, dict) and "id" in data and "name" in data:
             return IdInfo(id=data["id"], name=data["name"])
         else:
@@ -40,7 +40,7 @@ class Season(NamedTuple):
     season: str
 
     @staticmethod
-    def _parse(season_data: Optional[Json]) -> Optional["Season"]:
+    def _parse(season_data: Json | None) -> Optional["Season"]:
         if (
             isinstance(season_data, dict)
             and "year" in season_data
@@ -96,7 +96,7 @@ class AnimeEntry(NamedTuple):
     licensors: list[IdInfo]
     genres: list[IdInfo]
     demographics: list[IdInfo]
-    season: Optional[Season]
+    season: Season | None
     has_episode_video: bool
     has_promotion_video: bool
     has_video: bool
@@ -106,11 +106,11 @@ class AnimeEntry(NamedTuple):
     is_added_to_list: bool
     media_type: str
     rating: str
-    start_date: Optional[date]
-    finish_date: Optional[date]
-    air_start_date: Optional[date]
-    air_end_date: Optional[date]
-    days: Optional[int]
+    start_date: date | None
+    finish_date: date | None
+    air_start_date: date | None
+    air_end_date: date | None
+    days: int | None
     storage: str
     priority: str
 
@@ -169,11 +169,11 @@ class MangaEntry(NamedTuple):
     image_path: str
     is_added_to_list: bool
     media_type: str
-    start_date: Optional[date]
-    finish_date: Optional[date]
-    publish_start_date: Optional[date]
-    publish_end_date: Optional[date]
-    days: Optional[int]
+    start_date: date | None
+    finish_date: date | None
+    publish_start_date: date | None
+    publish_end_date: date | None
+    days: int | None
     retail: str
     priority: str
 

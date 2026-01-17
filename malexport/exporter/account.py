@@ -1,5 +1,3 @@
-from typing import Optional, Union
-
 from ..paths import LocalDir
 from ..list_type import ListType
 from .mal_list import MalList
@@ -22,25 +20,25 @@ class Account:
         self.localdir = localdir
         self.animelist = MalList(list_type=ListType.ANIME, localdir=self.localdir)
         self.mangalist = MalList(list_type=ListType.MANGA, localdir=self.localdir)
-        self.animelist_api: Optional[APIList] = None
-        self.mangalist_api: Optional[APIList] = None
-        self.mal_session: Optional[MalSession] = None
-        self.anime_episode_history: Optional[HistoryManager] = None
-        self.manga_chapter_history: Optional[HistoryManager] = None
-        self.forum_manager: Optional[ForumManager] = None
-        self.export_downloader: Optional[ExportDownloader] = None
-        self.friend_downloader: Optional[FriendDownloader] = None
-        self.message_manager: Optional[MessageDownloader] = None
-        self._shared_driver: Optional[Browser] = None
+        self.animelist_api: APIList | None = None
+        self.mangalist_api: APIList | None = None
+        self.mal_session: MalSession | None = None
+        self.anime_episode_history: HistoryManager | None = None
+        self.manga_chapter_history: HistoryManager | None = None
+        self.forum_manager: ForumManager | None = None
+        self.export_downloader: ExportDownloader | None = None
+        self.friend_downloader: FriendDownloader | None = None
+        self.message_manager: MessageDownloader | None = None
+        self._shared_driver: Browser | None = None
 
     @property
-    def shared_driver(self) -> Union[Browser, None]:
+    def shared_driver(self) -> Browser | None:
         if self._shared_driver is None:
             return None
         return self._shared_driver
 
     @shared_driver.setter
-    def shared_driver(self, driver: Union[Browser, None]) -> None:
+    def shared_driver(self, driver: Browser | None) -> None:
         # dont overwrite if already set
         if driver is None or self._shared_driver is not None:
             return
@@ -69,7 +67,7 @@ class Account:
         """Alternate constructor to create an account from MAL username"""
         return Account(localdir=LocalDir.from_username(username))
 
-    def update_lists(self, only: Optional[ListType] = None) -> None:
+    def update_lists(self, only: ListType | None = None) -> None:
         """
         Uses the load.json endpoint to request anime/manga lists.
         Does not require any authentication
@@ -79,7 +77,7 @@ class Account:
         if only == ListType.MANGA or only is None:
             self.mangalist.update_list()
 
-    def update_api_lists(self, only: Optional[ListType] = None) -> None:
+    def update_api_lists(self, only: ListType | None = None) -> None:
         """
         Uses MALs API to request anime/manga lists
         Requires authentication, but includes more data than load.json
@@ -119,8 +117,8 @@ class Account:
 
     def update_history(
         self,
-        only: Optional[ListType] = None,
-        count: Optional[int] = None,
+        only: ListType | None = None,
+        count: int | None = None,
         driver_type: str = "chrome",
         use_merged_file: bool = False,
     ) -> None:
@@ -157,7 +155,7 @@ class Account:
         self.shared_driver = self.manga_chapter_history._driver
 
     def update_messages(
-        self, start_page: int = 1, thread_count: Optional[int] = None
+        self, start_page: int = 1, thread_count: int | None = None
     ) -> None:
         """
         Download/Update DMs for your account

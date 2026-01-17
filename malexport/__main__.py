@@ -1,7 +1,8 @@
 import os
 import sys
 from pathlib import Path
-from typing import Callable, Optional, Any, Literal
+from typing import Any, Literal
+from collections.abc import Callable
 
 import click
 
@@ -87,7 +88,7 @@ def _lists_update(only: str, username: str) -> None:
     from .exporter import Account
 
     acc = Account.from_username(username)
-    only_update: Optional[ListType] = None
+    only_update: ListType | None = None
     if only is not None:
         only_update = ListType.__members__[only.upper()]
     acc.update_lists(only=only_update)
@@ -105,7 +106,7 @@ def _lists_update(only: str, username: str) -> None:
     "--start-page", type=int, default=1, help="which page to start requesting from"
 )
 def _messages_update(
-    username: str, start_page: int, thread_count: Optional[int] = None
+    username: str, start_page: int, thread_count: int | None = None
 ) -> None:
     from .exporter import Account
 
@@ -121,7 +122,7 @@ def _api_lists(only: str, username: str) -> None:
     from .exporter import Account
 
     acc = Account.from_username(username)
-    only_update: Optional[ListType] = None
+    only_update: ListType | None = None
     if only is not None:
         only_update = ListType.__members__[only.upper()]
     acc.update_api_lists(only=only_update)
@@ -161,15 +162,15 @@ def _export(username: str) -> None:
 )
 def _history(
     username: str,
-    only: Optional[str],
+    only: str | None,
     driver_type: str,
-    count: Optional[int],
+    count: int | None,
     use_merged_file: bool,
 ) -> None:
     from .exporter import Account
 
     acc = Account.from_username(username)
-    only_update: Optional[ListType] = None
+    only_update: ListType | None = None
     if only is not None:
         only_update = ListType.__members__[only.upper()]
     acc.update_history(
@@ -223,7 +224,7 @@ def _xml(xml_file: str) -> None:
 )
 @apply_shared(STREAM)
 @click.argument("LIST_FILE", type=click.Path(exists=True))
-def _list_parse(_type: Optional[str], list_file: str, stream: bool) -> None:
+def _list_parse(_type: str | None, list_file: str, stream: bool) -> None:
     from .parse import parse_list
     from .common import serialize
 
@@ -255,7 +256,7 @@ def _list_parse(_type: Optional[str], list_file: str, stream: bool) -> None:
 )
 @apply_shared(STREAM)
 @click.argument("API_LIST_FILE", type=click.Path(exists=True))
-def _api_list_file(_type: Optional[str], api_list_file: str, stream: bool) -> None:
+def _api_list_file(_type: str | None, api_list_file: str, stream: bool) -> None:
     from .parse import iter_api_list
     from .common import serialize
 
@@ -346,7 +347,7 @@ def _manual_history_parse(
     name="combine", short_help="combines lists, api-lists, xml and history data"
 )
 @apply_shared(USERNAME, ONLY)
-def _combine_parse(only: Optional[str], username: str) -> None:
+def _combine_parse(only: str | None, username: str) -> None:
     """
     This combines relevant info from the lists, xml and history files
     It removes some of the commonly unused fields, and uses the xml for rewatch info/better dates
@@ -548,10 +549,10 @@ def manual_history(
     username: str,
     type_: str,
     at: int,
-    id: Optional[int],
+    id: int | None,
     loop: bool,
     edit: bool,
-    number: Optional[int],
+    number: int | None,
 ) -> None:
     """
     This lets you add to your user history manually, for example if you

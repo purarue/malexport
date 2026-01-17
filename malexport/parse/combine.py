@@ -4,7 +4,7 @@ export and history modules into data I find useful
 """
 
 import os
-from typing import NamedTuple, Optional, TypeVar, Union
+from typing import NamedTuple, TypeVar
 from pathlib import Path
 from datetime import date
 
@@ -30,12 +30,12 @@ FILTER_TAGS = "MALEXPORT_COMBINE_FILTER_TAGS"
 class AnimeData(NamedTuple):
     XMLData: AnimeXML
     history: list[HistoryEntry]
-    JSONList: Optional[AnimeEntry]
-    APIList: Optional[Entry]
+    JSONList: AnimeEntry | None
+    APIList: Entry | None
     username: str
 
     @property
-    def runtime(self) -> Optional[int]:
+    def runtime(self) -> int | None:
         """
         Returns the total runtime of the anime in seconds, or None if couldn't be computed
         """
@@ -69,13 +69,13 @@ class AnimeData(NamedTuple):
         return watched_time
 
     @property
-    def start_date(self) -> Optional[date]:
+    def start_date(self) -> date | None:
         if self.JSONList:
             return self.JSONList.start_date
         return None
 
     @property
-    def finish_date(self) -> Optional[date]:
+    def finish_date(self) -> date | None:
         if self.JSONList:
             return self.JSONList.finish_date
         return None
@@ -94,8 +94,8 @@ class AnimeData(NamedTuple):
 class MangaData(NamedTuple):
     XMLData: MangaXML
     history: list[HistoryEntry]
-    JSONList: Optional[MangaEntry]
-    APIList: Optional[Entry]
+    JSONList: MangaEntry | None
+    APIList: Entry | None
     username: str
 
     @property
@@ -109,13 +109,13 @@ class MangaData(NamedTuple):
         return []
 
     @property
-    def start_date(self) -> Optional[date]:
+    def start_date(self) -> date | None:
         if self.JSONList:
             return self.JSONList.start_date
         return None
 
     @property
-    def finish_date(self) -> Optional[date]:
+    def finish_date(self) -> date | None:
         if self.JSONList:
             return self.JSONList.finish_date
         return None
@@ -124,7 +124,7 @@ class MangaData(NamedTuple):
 CombineResults = tuple[list[AnimeData], list[MangaData]]
 
 
-def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
+def combine(username: str, data_dir: Path | None = None) -> CombineResults:
     if data_dir is None:
         acc = LocalDir.from_username(username)
         data_dir = acc.data_dir
@@ -278,7 +278,7 @@ def combine(username: str, data_dir: Optional[Path] = None) -> CombineResults:
         filter_by_tags: list[str] = os.environ[FILTER_TAGS].split(",")
 
         # if this entry has any tags which are in the filter list
-        def filter_func(e: Union[AnimeData, MangaData]) -> bool:
+        def filter_func(e: AnimeData | MangaData) -> bool:
             tags: set[str] = set(e.tags_list)
             return not any(t in filter_by_tags for t in tags)
 

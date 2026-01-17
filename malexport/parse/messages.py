@@ -1,14 +1,14 @@
 import json
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import NamedTuple, Optional, Any
+from typing import NamedTuple, Any
 from collections.abc import Iterator
 
 from ..paths import LocalDir
 
 
 class Message(NamedTuple):
-    at: Optional[datetime]
+    at: datetime | None
     username: str
     content: str
 

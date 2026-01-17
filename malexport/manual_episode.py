@@ -2,7 +2,7 @@
 
 import datetime
 from pathlib import Path
-from typing import NamedTuple, Optional
+from typing import NamedTuple
 from collections.abc import Iterator
 from functools import lru_cache
 
@@ -39,7 +39,7 @@ class Picked(NamedTuple):
     title: str
 
 
-def pick_id(xml_file: Path) -> Optional[Picked]:
+def pick_id(xml_file: Path) -> Picked | None:
     # If you want to set options for FZF, you can set the FZF_DEFAULT_OPTS environment variable like
     # export FZF_DEFAULT_OPTS="--height 40% --reverse --border"
     # or
@@ -57,10 +57,10 @@ def pick_id(xml_file: Path) -> Optional[Picked]:
 def add_to_history(
     entry_type: ListType,
     username: str,
-    id: Optional[int] = None,
-    at: Optional[datetime.datetime] = None,
-    number: Optional[int] = None,
-) -> Optional[Data]:
+    id: int | None = None,
+    at: datetime.datetime | None = None,
+    number: int | None = None,
+) -> Data | None:
     data_dir = LocalDir.from_username(username).data_dir
 
     xml_file = (

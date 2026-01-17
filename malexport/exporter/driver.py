@@ -9,7 +9,7 @@ import random
 import atexit
 from pathlib import Path
 from functools import lru_cache
-from typing import Optional, Any, Union
+from typing import Any, Union
 
 import click
 from selenium import webdriver as sel
@@ -28,7 +28,7 @@ from ..common import REQUEST_WAIT_TIME
 # typically this just uses the 'chromedriver' binary,
 # as long as that's on your $PATH
 HIDDEN_CHROMEDRIVER = bool(int(os.environ.get("MALEXPORT_CHROMEDRIVER_HIDDEN", 0)))
-CHROME_LOCATION: Optional[str] = os.environ.get("MALEXPORT_CHROMEDRIVER_LOCATION")
+CHROME_LOCATION: str | None = os.environ.get("MALEXPORT_CHROMEDRIVER_LOCATION")
 
 # location for chromedriver to download files to
 TEMP_DOWNLOAD_BASE = os.environ.get("MALEXPORT_TEMPDIR", tempfile.gettempdir())
@@ -48,7 +48,7 @@ Browser = Union[sel.Chrome, Firefox]
 
 
 @lru_cache(maxsize=12)
-def webdriver(browser_type: str) -> Union[sel.Chrome, sel.Firefox]:
+def webdriver(browser_type: str) -> sel.Chrome | sel.Firefox:
     bt = browser_type.casefold()
     assert bt in {"chrome", "firefox"}
     if bt == "chrome":
