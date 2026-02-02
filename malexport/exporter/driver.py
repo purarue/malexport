@@ -17,6 +17,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.webdriver import WebDriver as Firefox
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.ui import WebDriverWait  # type: ignore[import]
 from selenium.webdriver.support import expected_conditions as EC  # type: ignore[import]
 
@@ -89,6 +90,19 @@ PASSWORD_ID = "login-password"
 LOGIN_BUTTON_CSS = ".inputButton.btn-form-submit[value='Login']"
 
 
+def _wait_for_input_element(webdriver: Browser, id_selector: str) -> WebElement:
+    try:
+        WebDriverWait(webdriver, 10).until(  # type: ignore[no-untyped-call]
+            EC.element_to_be_clickable(  # type: ignore[no-untyped-call]
+                (By.ID, id_selector)
+            )
+        )
+    except TimeoutException:
+        logger.error(f"Could not locate element by id {id_selector}")
+
+    return webdriver.find_element(By.ID, id_selector)
+
+
 def driver_login(webdriver: Browser, localdir: LocalDir) -> None:
     """
     Login using the users MAL username and password
@@ -131,9 +145,10 @@ def driver_login(webdriver: Browser, localdir: LocalDir) -> None:
                     "WARNING: Could not find success modal after accepting terms",
                     err=True,
                 )
-    webdriver.find_element(By.ID, LOGIN_ID).send_keys(creds["username"])
+
+    _wait_for_input_element(webdriver, LOGIN_ID).send_keys(creds["username"])
     time.sleep(1)
-    webdriver.find_element(By.ID, PASSWORD_ID).send_keys(creds["password"])
+    _wait_for_input_element(webdriver, PASSWORD_ID).send_keys(creds["password"])
     time.sleep(1)
     # use script to login in case window is too small to be clickable
     webdriver.execute_script(f"""document.querySelector("{LOGIN_BUTTON_CSS}").click()""")  # type: ignore[no-untyped-call]
